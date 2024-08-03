@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router';
 import './common/plugins/bootstrap-vue'
 import './common/plugins/vue-slick'
+import '../public/common/styles/tailwindcss.css'
 Vue.config.productionTip = false
 
 
