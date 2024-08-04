@@ -14,7 +14,7 @@
             </svg>
             <span class="sr-only lg:not-sr-only">로그인</span>
           </button>
-          <button class="login w-6 h-6 lg:w-auto lg:h-auto">
+          <button v-b-modal.member class="member w-6 h-6 lg:w-auto lg:h-auto">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 lg:hidden">
               <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
             </svg>
@@ -34,6 +34,7 @@
       </div>
     </nav>
     <div class="absolute left-0 top-20 rotate-1 w-full h-7 bg-red-800 shadow-md"></div>
+    
     <b-modal id="login" class="modal" hide-footer>
       <template #modal-title>
         <div class="layertit flex items-center gap-1 text-2xl font-semibold text-gray-700">
@@ -65,6 +66,84 @@
         </div>
       </div>
     </b-modal>
+
+    <b-modal id="member" class="modal" hide-footer>
+      <template #modal-title>
+        <div class="layertit flex items-center gap-1 text-2xl font-semibold text-gray-700">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0 1 18 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3 1.5 1.5 3-3.75" />
+          </svg>
+          회원가입
+        </div>
+      </template>
+      <div class="modalcontainer">
+        <b-form @submit="Joinmember">
+          <b-form-group
+            id="formid1"
+            label="아이디"
+            label-for="id"
+            description="4~15자리 이내의 영문과 숫자로만 입력하세요"
+            class="relative pr-20"
+          >
+            <b-form-input
+              id="id"
+              v-model="form.id"
+              type="text"
+              placeholder="아이디를 작성해 주세요"
+              required
+            >
+            </b-form-input>
+            <b-button class="absolute right-0 bottom-[31px] w-[75px] h-10 border rounded-none bg-slate-100 text-sm">중복확인</b-button>
+          </b-form-group>
+          <b-form-group
+            id="formid2"
+            label="비밀번호"
+            label-for="password"
+            description="8자리 이상의 영문과 숫자로만 입력하세요"
+          >
+            <b-form-input
+              id="password"
+              v-model="form.pass"
+              type="password"
+              placeholder="비밀번호를 입력해 주세요"
+              required
+            >
+            </b-form-input>
+          </b-form-group>
+          <b-form-group
+            id="formid3"
+            label="이메일 수신"
+            label-for="mailing"
+            description="※ 이메일 수신을 허락하면 독자 혜택을 받을 수 있어요"
+          >
+            <b-form-radio value="Y" v-model="form.mail" class="inline-block ml-4 mr-3.5 text-sm">예</b-form-radio>
+            <b-form-radio value="N" v-model="form.mail" class="inline-block ml-4 mr-3.5 text-sm">아니오</b-form-radio>
+            <!-- 선택된 라디오 버튼의 값: {{ form.mail }} -->
+          </b-form-group>
+          <b-form-group
+            id="formid4"
+            label="관심분야"
+            label-for="checkedtype"
+            description="※ 관심분야를 선택하세요. 여러개 선택 가능합니다."
+          >
+            <b-form-checkbox value="html" v-model="form.checkedtype" class="inline-block ml-4 mr-3.5 text-sm">HTML/CSS</b-form-checkbox>
+            <b-form-checkbox value="javascript" v-model="form.checkedtype" class="inline-block ml-4 mr-3.5 text-sm">자바스크립트</b-form-checkbox>
+            <b-form-checkbox value="python" v-model="form.checkedtype" class="inline-block ml-4 mr-3.5 text-sm">파이썬</b-form-checkbox>
+            <b-form-checkbox value="vue.js" v-model="form.checkedtype" class="inline-block ml-4 mr-3.5 text-sm">뷰</b-form-checkbox>
+            <b-form-checkbox value="angular" v-model="form.checkedtype" class="inline-block ml-4 mr-3.5 text-sm">앵귤러</b-form-checkbox>
+            <b-form-checkbox value="react" v-model="form.checkedtype" class="inline-block ml-4 mr-3.5 text-sm">리액트</b-form-checkbox>
+            <b-form-checkbox value="data" v-model="form.checkedtype" class="inline-block ml-4 mr-3.5 text-sm">자료구조/알고리즘</b-form-checkbox>
+            <b-form-checkbox value="cad" v-model="form.checkedtype" class="inline-block ml-4 mr-3.5 text-sm">오토캐드</b-form-checkbox>
+          </b-form-group>
+        </b-form>
+        <!-- 관심분야: {{ form.checkedtype }} -->
+        <div class="btnwrap half flex justify-center gap-2 mt-7">
+          <b-button type="submit" variant="login" class="basis-1/2 bg-sky-600 text-white">확인</b-button>
+          <b-button type="reset" variant="cancel" class="basis-1/2 bg-slate-300">취소</b-button>
+        </div>
+      </div>
+    </b-modal>
+
   </header>
 </template>
 
@@ -78,7 +157,13 @@ export default {
         {menutext:"동영상강의", link:"/movieclass"},
         {menutext:"교재샘플", link:"/classsample"},
         {menutext:"회사소개", link:"/company"},
-      ]
+      ],
+      form: {
+        id: "",
+        pass: "",
+        mail: "",
+        checkedtype: []
+      }
     }
   },
   methods: {
@@ -86,6 +171,16 @@ export default {
       if (this.$router.currentRoute.path !== target) {
         this.$router.push(target);
       }
+    },
+    Joinmember(event) {
+      event.preventDefault();
+      alert(JSON.stringify(this.form));
+      this.$nextTick(() => {
+        this.form.id = "";
+        this.form.pass = "";
+        this.form.mail = "";
+        this.form.checkedtype = [];
+      })
     }
   }
 }
@@ -98,5 +193,69 @@ export default {
 .form-control {
   height: 40px;
   font-size: 0.875rem;
+}
+.form-group {
+  .d-block {
+    margin-bottom: 10px;
+    font-weight: 500;
+    font-size: 1rem;
+    line-height: 1;
+    &::before {
+      display: inline-block;
+      margin: -5px 3px 0 0;
+      vertical-align: bottom;
+      font-family: bootstrap-icons !important;
+      line-height: 1;
+    }
+  }
+  .form-text {
+    display: block;
+    position: relative;
+    margin: 10px 0 0 10px;
+    padding: 0 20px;
+    font-weight: 500;
+    font-size: 0.875rem;
+    color: #17a2b8 !important;
+    opacity: 0.6;
+    &::after {
+      content: "";
+      display: block;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 20px;
+      height: 20px;
+      background: url("../../../public/images/pencil.svg") no-repeat left center;
+      opacity: 0.4;
+    }
+  }
+  &:nth-child(1) {
+    .d-block {
+      &::before {
+        content: "\F676";
+      }
+    }
+  }
+  &:nth-child(2) {
+    .d-block {
+      &::before {
+        content: "\F47A";
+      }
+    }
+  }
+  &:nth-child(3) {
+    .d-block {
+      &::before {
+        content: "\F68B";
+      }
+    }
+  }
+  &:nth-child(4) {
+    .d-block {
+      &::before {
+        content: "\F890";
+      }
+    }
+  }
 }
 </style>
