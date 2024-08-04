@@ -4,7 +4,7 @@
       <div class="contentbox flex justify-between items-center w-full max-w-screen-xl mx-auto px-5">
         <div class="logo">
           <button v-on:click="goToPage('/main')">
-            <img src="/images/logo.png" alt="이지스퍼블리싱 로고" title="이지스 퍼블리싱" class="w-16">
+            <img src="/images/logo.png" alt="이지스 퍼블리싱 로고" title="이지스 퍼블리싱" class="w-16">
           </button>
         </div>
         <div class="system">
