@@ -186,7 +186,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .modal-header {
   padding: 10px 20px;
 }

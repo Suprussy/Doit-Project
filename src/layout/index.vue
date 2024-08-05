@@ -1,5 +1,5 @@
 <template>
-  <section id="wrap" class="flex flex-col h-full text-slate-700">
+  <section id="wrap" class="flex flex-col h-full text-gray-700">
     <h1 class="blind">웹사이트 제목</h1>
     <Header></Header>
     <section id="container">
