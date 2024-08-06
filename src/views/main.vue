@@ -33,10 +33,32 @@
         </VueSlickCarousel>
       </div>
     </section>
-    <section class="searchbook">
-      <h1 class="maintit mb-5 text-center text-2xl font-bold text-gray-700 md:text-4xl">
+    <section class="searchbook mt-7 mb-5 py-5 px-7 bg-gray-800 md:mt-14 md:mb-10 md:py-10 md:px-0">
+      <h1 class="maintit mb-5 text-center text-2xl font-bold text-white md:text-4xl">
         도서 검색<span class="block text-sm font-semibold text-gray-400 md:mt-2.5 md:text-lg">찾고자 하는 도서명을 검색해 주세요</span>
       </h1>
+      <div class="inputarea relative max-w-screen-sm mx-auto">
+        <b-form-input v-model="keyword" class="h-7 border-0 text-sm md:h-10 md:text-base"/>
+        <b-button variant="search" class="absolute right-2.5 top-0 w-auto h-7 md:h-10">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+          </svg>
+        </b-button>
+        <div v-if="keyword.length > 0" class="autolayer absolute left-0 top-7 w-full h-32 bg-white overflow-hidden overflow-y-scroll z-50 md:top-10 md:h-44" :class="{ none: autocomplete.length === 0 }">
+          <ul v-if="autocomplete.length > 0">
+            <li
+              v-for="(item, index) in autocomplete[0].books" :key="index" v-html="item.booktit"
+              class="px-3.5 py-1 border-t text-gray-400 cursor-pointer hover:bg-gray-300 text-sm hover:text-gray-700 md:px-7 md:py-2.5 md:text-base"></li>
+          </ul>
+          <div v-else class="nonemessage p-3.5 text-red-600">
+            <i class="bi bi-x-circle-fill"></i>
+            검색 결과가 없습니다.
+          </div>
+        </div>
+      </div>
+      <div class="guidehash max-w-screen-sm mx-auto text-center">
+        <span v-for="(item, index) in hashdata" :key="index" v-html="item.text" class="inline-block mt-2.5 mr-2.5 text-sm text-gray-200 md:text-base"></span>
+      </div>
     </section>
     <section class="bannermenu">
     </section>
@@ -54,6 +76,7 @@ export default {
       Newbooks_it: [
         { imgurl:"/images/books_image/book01.jpg", name:"Do it! 웹사이트 따라 만들기", subdec:"HTML, CSS, JavaScript 문법서는 공부했지만, 웹사이트를..." },
         { imgurl:"/images/books_image/book02.jpg", name:"Do it! 첫 알고리즘" , subdec:"160가지 그림과 스토리텔링으로 이해한다! 자료구조부터 보안..." },
+        
         { imgurl:"/images/books_image/book03.jpg", name:"Do it! C# 프로그래밍 입문" , subdec:"이 책은 기본이 충실하면서도 프로젝트 실습까지 챙긴 C# 입문서..." },
         { imgurl:"/images/books_image/book04.jpg", name:"IT 5분 잡학사전" , subdec:"IT 분야 직장에서 일하는 나 요즘 주변에 이상한 사람이..." },
         { imgurl:"/images/books_image/book05.jpg", name:"Do it! SQL 입문" , subdec:"20년간 글로벌 기업에서 데이터베이스 전문가로 근무한 저자의..." },
@@ -106,7 +129,40 @@ export default {
             }
           }
         ]
-      }
+      },
+      hashdata: [
+        { text:"html", value:"html" },
+        { text:"vue", value:"vue" },
+        { text:"css", value:"css" },
+        { text:"javascript", value:"javascript" },
+        { text:"자료구조/알고리즘", value:"자료구조/알고리즘" },
+        { text:"python", value:"python" },
+      ],
+      booksname: [
+        {
+          cata: "html",
+          books: [
+              { booktit:"Do it! 웹 사이트 따라 만들기", author:"김윤미" },
+              { booktit:"Do it! HTML+CSS+자바스크립트 웹 표준의 정석", author:"고경희" },
+              { booktit:"Do it! 반응형 웹 만들기", author:"김운아" },
+              { booktit:"Do it! 인터랙티브 웹 페이지 만들기", author:"최성일" }
+          ]
+        },
+        {
+          cata: "vue",
+          books: [
+              { booktit:"Do it! vue.js 입문", author:"장기효" }
+          ]
+        },
+        {
+          cata: "javascript",
+          books: [
+              { booktit:"Do it! 프로그래시브 웹앱 만들기", author:"김응석" },
+              { booktit:"Do it! 모던 자바스크립트 프로그래밍의 정석", author:"고경희" },
+          ]
+        }
+      ],
+      keyword: ""
     }
   },
   created() {
@@ -117,6 +173,15 @@ export default {
       this.Newbooks = this[contents];
       document.querySelector(".active").classList.remove("active");
       event.target.classList.add("active");
+    }
+  },
+  computed: {
+    autocomplete() {
+      const resultlists = this.booksname.filter((item) => {
+        if (item.cata.match(this.keyword))
+          return item;
+      })
+      return resultlists;
     }
   }
 }
@@ -147,5 +212,16 @@ export default {
     right: 10px;
     transform: rotate(180deg);
   }
+}
+.guidehash {
+  span {
+    &::before {
+      content: "#";
+      display: inline-block;
+    }
+  }
+}
+.autolayer.none {
+  height: auto;
 }
 </style>
