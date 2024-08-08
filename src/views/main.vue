@@ -60,7 +60,12 @@
         <span v-for="(item, index) in hashdata" :key="index" v-html="item.text" class="inline-block mt-2.5 mr-2.5 text-sm text-gray-200 md:text-base"></span>
       </div>
     </section>
-    <section class="bannermenu">
+    <section class="bannermenu flex flex-wrap justify-between w-full max-w-screen-xl mx-auto px-5">
+      <div v-for="(item, index) in mainbanner" :key="index" @click="gotoPage(item.url)" class="itembox basis-full relative mt-5 px-5 pt-5 pb-7 bg-gray-100 rounded-xl cursor-pointer md:basis-[32%] md:mt-0 md:px-7 md:pt-7 md:pb-12">
+        <span v-html="item.stitle" class="block text-sm">교수 및 강사 전용</span>
+        <strong v-html="item.maintit" class="text-base text-gray-700 md:text-xl">교재샘플 / 강의자료</strong>
+        <i class="bi absolute right-5 bottom-5 text-4xl md:text-5xl" :class="item.iconname"></i>
+      </div>
     </section>
     <section class="notice">
       <h1 class="maintit mb-5 text-center text-2xl font-bold text-gray-700 md:text-4xl">공지사항</h1>
@@ -162,7 +167,12 @@ export default {
           ]
         }
       ],
-      keyword: ""
+      keyword: "",
+      mainbanner: [
+        { stitle:"교수 및 강사 전용", maintit:"교재 샘플/강의 자료", iconname:"bi-stickies", url:"/classsample" },
+        { stitle:"스터디 카페", maintit:"Do it! 스터디룸", iconname:"bi-book-half", url:"https://cafe.naver.com/doitstudyroom" }, 
+        { stitle:"이지스 SNS", maintit:"페이스북", iconname:"bi-facebook", url:"https://www.facebook.com/easyspub/" },
+      ]
     }
   },
   created() {
@@ -173,6 +183,13 @@ export default {
       this.Newbooks = this[contents];
       document.querySelector(".active").classList.remove("active");
       event.target.classList.add("active");
+    },
+    gotoPage(url) {
+      if (url == "/classsample") {
+        this.$router.push(url);
+      } else {
+        window.open(url, "_blank");
+      }
     }
   },
   computed: {
