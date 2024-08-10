@@ -62,13 +62,20 @@
     </section>
     <section class="bannermenu flex flex-wrap justify-between w-full max-w-screen-xl mx-auto px-5">
       <div v-for="(item, index) in mainbanner" :key="index" @click="gotoPage(item.url)" class="itembox basis-full relative mt-5 px-5 pt-5 pb-7 bg-gray-100 rounded-xl cursor-pointer md:basis-[32%] md:mt-0 md:px-7 md:pt-7 md:pb-12">
-        <span v-html="item.stitle" class="block text-sm">교수 및 강사 전용</span>
-        <strong v-html="item.maintit" class="text-base text-gray-700 md:text-xl">교재샘플 / 강의자료</strong>
+        <span v-html="item.stitle" class="block text-sm"></span>
+        <strong v-html="item.maintit" class="text-base text-gray-700 md:text-xl"></strong>
         <i class="bi absolute right-5 bottom-5 text-4xl md:text-5xl" :class="item.iconname"></i>
       </div>
     </section>
-    <section class="notice">
-      <h1 class="maintit mb-5 text-center text-2xl font-bold text-gray-700 md:text-4xl">공지사항</h1>
+    <section class="notice max-w-screen-xl mx-auto mt-10 px-5">
+      <div class="noticebox relative h-24 bg-cyan-50 overflow-hidden px-5 py-2.5 rounded-t-lg md:h-14 md:pt-5 md:pr-80 md:pb-2.5 md:pl-36">
+        <h1 class="maintit mb-0 static left-5 top-3 text-left text-xl font-bold text-gray-700 md:absolute md:text-center md:text-2xl">공지사항</h1>
+        <b-button @click="viewmore($event)" variant="noticemore" class="absolute top-4 right-5 w-6 h-6 z-10 rotate-[-90deg]"></b-button>
+        <div v-for="(item, index) in noticelists" :key="index" class="newsitem justify-between items-center mb-5 md:flex">
+          <strong v-html="item.noticetit" class="text-sm text-gray-500"></strong>
+          <span v-html="item.date" class="block text-sm text-gray-400 md:inline-block"></span>
+        </div>
+      </div>
     </section>
   </section>
 </template>
@@ -172,6 +179,11 @@ export default {
         { stitle:"교수 및 강사 전용", maintit:"교재 샘플/강의 자료", iconname:"bi-stickies", url:"/classsample" },
         { stitle:"스터디 카페", maintit:"Do it! 스터디룸", iconname:"bi-book-half", url:"https://cafe.naver.com/doitstudyroom" }, 
         { stitle:"이지스 SNS", maintit:"페이스북", iconname:"bi-facebook", url:"https://www.facebook.com/easyspub/" },
+      ],
+      noticelists: [
+        { noticetit:"이지스퍼블리싱/이지스에듀 저작물 이용지침", date:"2023.03.30" },
+        { noticetit:"IT 분야 편집/기획자 모집", date:"2023.02.16" },
+        { noticetit:"이지스퍼블리싱 전자책 대여 서비스 오픈", date:"2021.10.28" }
       ]
     }
   },
@@ -189,6 +201,13 @@ export default {
         this.$router.push(url);
       } else {
         window.open(url, "_blank");
+      }
+    },
+    viewmore(event) {
+      if (event.target.parentElement.classList.value.indexOf("full") > -1) {
+        event.target.parentElement.classList.remove("full");
+      } else {
+        event.target.parentElement.classList.add("full");
       }
     }
   },
@@ -240,5 +259,16 @@ export default {
 }
 .autolayer.none {
   height: auto;
+}
+.btn-noticemore {
+  background: url("../../public/images/arrow-icon.png") no-repeat 0 0 / 100%;
+}
+.noticebox.full {
+  height: auto;
+  & {
+    .btn-noticemore {
+      transform: rotate(90deg);
+    }
+  }
 }
 </style>
