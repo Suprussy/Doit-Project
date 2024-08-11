@@ -1,6 +1,6 @@
 <template>
   <section class="maincontents">
-    <section class="mainbanner h-[350px] overflow-hidden text-center shadow-sm"><img src="/images/mainimg.png" alt="" class="inline-block h-[350px]"></section>
+    <section class="mainbanner h-auto overflow-hidden text-center shadow-sm md:h-[350px]"><img src="/images/mainimg.png" alt="" class="inline-block md:max-h-80"></section>
     <section class="newbook py-10">
       <h1 class="maintit mb-5 text-center text-2xl font-bold text-gray-700 md:text-4xl">
         새로 나온 도서<span class="block text-sm font-semibold text-gray-400 md:mt-2.5 md:text-lg">분야별로 새로 나온 도서를 만나보세요</span>

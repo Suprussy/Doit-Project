@@ -1,5 +1,5 @@
 <template>
-  <header class="relative z-50">
+  <header :class="Topclass">
     <div class="topmenu py-1">
       <div class="contentbox flex justify-between items-center w-full max-w-screen-xl mx-auto px-5">
         <div class="logo">
@@ -33,7 +33,7 @@
         </ul>
       </div>
     </nav>
-    <div class="absolute left-0 top-20 rotate-1 w-full h-7 bg-red-800 shadow-md"></div>
+    <!-- <div class="absolute left-0 top-20 rotate-1 w-full h-7 bg-red-800 shadow-md"></div> -->
     
     <b-modal id="login" class="modal" hide-footer>
       <template #modal-title>
@@ -163,8 +163,15 @@ export default {
         pass: "",
         mail: "",
         checkedtype: []
-      }
+      },
+      Topclass: ""
     }
+  },
+  mounted() {
+    window.addEventListener("scroll", this.handleScroll);
+  },
+  beforeDestroy() {
+    window.removeEventListener("scroll", this.handleScroll);
   },
   methods: {
     goToPage(target) {
@@ -181,12 +188,32 @@ export default {
         this.form.mail = "";
         this.form.checkedtype = [];
       })
+    },
+    handleScroll() {
+      const scrollTop = window.pageYOffset;
+      const headerTop = document.querySelector("header").clientHeight;
+      if (scrollTop < headerTop) {
+        this.Topclass = "";
+      } else {
+        this.Topclass = "scrollTop";
+      }
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+header {
+  &::after {
+    position: absolute;
+    left: 0;
+    top: 80px;
+    transform: rotate(1.5deg);
+    background-color: #b31f28;
+    // box-shadow: 1px 5px 9px -3px rgb(50 50 50 / 75%);
+    z-index: 2;
+  }
+}
 .modal-header {
   padding: 10px 20px;
 }
@@ -254,6 +281,29 @@ export default {
     .d-block {
       &::before {
         content: "\F890";
+      }
+    }
+  }
+}
+.scrollTop {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: 9999;
+  .topmenu {
+    display: none;
+  }
+  &::after {
+    position: fixed;
+    top: 22px;
+  }
+}
+@media screen and (max-width:767px) {
+  header {
+    &.scrollTop {
+      &::after {
+        top: 14px;
       }
     }
   }
